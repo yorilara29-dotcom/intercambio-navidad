@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#09090b" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; form-action 'self'; base-uri 'self'; object-src 'none'"
+    />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta
+      name="description"
+      content="Panel de administración del intercambio de Navidad del Team Tora No Maki."
+    />
+    <title>Administración · Intercambio de Navidad</title>
+
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/fonts.css" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+
+  <body class="page-admin">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <div class="background-decor" aria-hidden="true">
+      <span class="background-grid"></span>
+      <span class="background-glow background-glow-red"></span>
+      <span class="background-glow background-glow-gold"></span>
+    </div>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="./" aria-label="Team Tora No Maki, inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="22" fill="currentColor"></circle>
+              <path
+                d="M13 17h22M10 24h28M13 31h22M18 37h12"
+                fill="none"
+                stroke="#09090b"
+                stroke-width="4"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <span class="brand-name">Team Tora No Maki</span>
+            <span class="brand-sub">Panel de administración</span>
+          </span>
+        </a>
+
+        <div class="header-actions">
+          <a class="header-link" href="./">Ver sitio</a>
+          <div id="session-box" class="session-box" hidden>
+            <span id="session-email" class="session-email"></span>
+            <button
+              type="button"
+              id="signout-button"
+              class="icon-button"
+              aria-label="Cerrar sesión"
+              title="Cerrar sesión"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <path d="m16 17 5-5-5-5"></path>
+                <path d="M21 12H9"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <div id="setup-banner" class="state-banner is-warning container" hidden>
+        <span class="state-banner-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M10.3 3.8 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"
+            ></path>
+            <path d="M12 9v4"></path>
+            <path d="M12 17h.01"></path>
+          </svg>
+        </span>
+        <div class="state-banner-copy">
+          <strong>Falta conectar Supabase</strong>
+          <p>
+            Completa <code>assets/config.js</code> con la URL y la clave pública
+            de tu proyecto. Revisa el README para los pasos.
+          </p>
+        </div>
+      </div>
+
+      <div id="boot-loading" class="boot-loading">
+        <span class="spinner spinner-large" aria-hidden="true"></span>
+        <p>Cargando panel…</p>
+      </div>
+
+      <section id="auth-view" class="auth-section container" hidden>
+        <div class="auth-layout">
+          <div class="auth-card card">
+            <p class="eyebrow">Panel de administración</p>
+            <h1>Control del intercambio</h1>
+            <p class="auth-lead">
+              Inicia sesión con la cuenta administradora para ver a los
+              participantes y realizar los sorteos.
+            </p>
+
+            <form id="login-form" class="form" novalidate>
+              <div class="field">
+                <label for="admin-email">Email</label>
+                <input
+                  id="admin-email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  inputmode="email"
+                  autocapitalize="none"
+                  spellcheck="false"
+                  placeholder="admin@ejemplo.com"
+                  required
+                />
+              </div>
+
+              <div class="field">
+                <label for="admin-password">Contraseña</label>
+                <div class="input-with-action">
+                  <input
+                    id="admin-password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="Tu contraseña"
+                    required
+                  />
+                  <button
+                    type="button"
+                    id="toggle-password"
+                    class="input-action"
+                    aria-label="Mostrar contraseña"
+                    aria-pressed="false"
+                  >
+                    Ver
+                  </button>
+                </div>
+              </div>
+
+              <p class="form-error" id="login-error" role="alert" hidden></p>
+
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                id="login-submit"
+              >
+                <span>Entrar al panel</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6"></path>
+                </svg>
+              </button>
+            </form>
+
+            <p class="auth-hint">
+              La cuenta se crea desde Supabase. No hay registro público de
+              administradores.
+            </p>
+          </div>
+
+          <aside class="auth-visual" aria-hidden="true">
+            <div class="auth-seal">
+              <span class="auth-seal-kanji">虎</span>
+              <span class="auth-seal-ring"></span>
+            </div>
+            <p class="eyebrow">Solo administración</p>
+            <h2>Todo el intercambio,<br />en un solo lugar.</h2>
+            <ul class="auth-feature-list">
+              <li>Participantes y pendientes en tiempo real.</li>
+              <li>Sorteo completo y segundo sorteo.</li>
+              <li>Asignaciones, búsqueda y exportación.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section id="dashboard-view" class="dashboard container" hidden>
+        <div class="dashboard-head">
+          <div>
+            <p class="eyebrow">Panel de administración</p>
+            <h1>Intercambio de Navidad</h1>
+            <p class="dashboard-subtitle">
+              Gestiona el registro, los sorteos y las asignaciones.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            id="refresh-dashboard"
+            class="btn btn-ghost btn-small"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 12a9 9 0 1 1-2.64-6.36"></path>
+              <path d="M21 3v6h-6"></path>
+            </svg>
+            Actualizar
+          </button>
+        </div>
+
+        <div id="dashboard-loading" class="dashboard-loading" hidden>
+          <span class="spinner spinner-large" aria-hidden="true"></span>
+          <p>Cargando datos del intercambio…</p>
+        </div>
+
+        <div id="dashboard-error" class="state-banner is-warning" hidden>
+          <span class="state-banner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M10.3 3.8 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"
+              ></path>
+              <path d="M12 9v4"></path>
+              <path d="M12 17h.01"></path>
+            </svg>
+          </span>
+          <div class="state-banner-copy">
+            <strong>No pudimos cargar el panel</strong>
+            <p id="dashboard-error-text"></p>
+            <button
+              type="button"
+              id="retry-dashboard"
+              class="btn btn-ghost btn-small"
+            >
+              Reintentar
+            </button>
+          </div>
+        </div>
+
+        <div id="dashboard-content" hidden>
+          <section class="stats-grid" aria-label="Resumen del intercambio">
+            <article class="stat-card">
+              <span class="stat-label">Participantes</span>
+              <strong class="stat-value" id="stat-total">0</strong>
+              <span class="stat-note">registrados en total</span>
+            </article>
+
+            <article class="stat-card stat-card-assigned">
+              <span class="stat-label">Con asignación</span>
+              <strong class="stat-value" id="stat-assigned">0</strong>
+              <span class="stat-note">ya tienen a quién regalar</span>
+            </article>
+
+            <article
+              class="stat-card stat-card-pending"
+              id="stat-pending-card"
+            >
+              <span class="stat-label">Pendientes</span>
+              <strong class="stat-value" id="stat-pending">0</strong>
+              <span class="stat-note" id="stat-pending-note"
+                >sin asignación</span
+              >
+            </article>
+          </section>
+
+          <div class="control-grid">
+            <section class="card control-card">
+              <div class="card-topline">
+                <span class="card-kicker">Sorteo</span>
+                <span id="draw-status-pill" class="status-pill">Pendiente</span>
+              </div>
+
+              <h2 id="draw-card-title">Todo listo para el sorteo</h2>
+              <p id="draw-card-text">
+                Cuando todos estén registrados, inicia el sorteo. Cada
+                participante recibirá exactamente una persona a quien regalar.
+              </p>
+
+              <div class="draw-meta">
+                <div>
+                  <span>Ronda</span>
+                  <strong id="draw-round-value">0</strong>
+                </div>
+                <div>
+                  <span>Último sorteo</span>
+                  <strong id="draw-date-value">—</strong>
+                </div>
+              </div>
+
+              <div
+                id="draw-pending-note"
+                class="inline-notice inline-notice-warning"
+                hidden
+              >
+                <strong id="draw-pending-title"></strong>
+                <span id="draw-pending-text"></span>
+              </div>
+
+              <button
+                type="button"
+                id="draw-button"
+                class="btn btn-primary btn-block"
+              >
+                <span id="draw-button-label">Iniciar sorteo</span>
+              </button>
+              <p id="draw-hint" class="field-hint"></p>
+            </section>
+
+            <section class="card control-card">
+              <div class="card-topline">
+                <span class="card-kicker">Registro</span>
+                <span id="registration-status-pill" class="status-pill"
+                  >Abierto</span
+                >
+              </div>
+
+              <h2>Entrada de participantes</h2>
+              <p>
+                Abre el registro para recibir participantes o ciérralo cuando
+                ya esté completa la lista.
+              </p>
+
+              <label class="switch-row" for="registration-toggle">
+                <span class="switch-copy">
+                  <strong>Permitir nuevos registros</strong>
+                  <small>
+                    Si está cerrado, nadie nuevo podrá registrarse desde la web.
+                  </small>
+                </span>
+                <input
+                  id="registration-toggle"
+                  type="checkbox"
+                  class="switch-input"
+                />
+                <span class="switch-track" aria-hidden="true">
+                  <span class="switch-thumb"></span>
+                </span>
+              </label>
+
+              <div class="rule-note">
+                <strong>Segundo sorteo</strong>
+                <p>
+                  Si alguien se registra después del primer sorteo, aparecerá
+                  como pendiente. El segundo sorteo lo integra conservando las
+                  asignaciones existentes y ajustando solo lo necesario para
+                  que todos queden incluidos.
+                </p>
+              </div>
+            </section>
+          </div>
+
+          <section class="card participants-card">
+            <div class="participants-head">
+              <div>
+                <p class="eyebrow">Listado</p>
+                <h2>Participantes</h2>
+                <p id="participants-summary">
+                  Todavía no hay participantes registrados.
+                </p>
+              </div>
+
+              <div class="participants-actions">
+                <label class="search-field">
+                  <span class="sr-only">Buscar participante</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m20 20-4-4"></path>
+                  </svg>
+                  <input
+                    type="search"
+                    id="participant-search"
+                    placeholder="Buscar por nombre o talla"
+                    autocomplete="off"
+                  />
+                </label>
+
+                <button
+                  type="button"
+                  id="export-csv"
+                  class="btn btn-ghost btn-small"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3v12"></path>
+                    <path d="m7 10 5 5 5-5"></path>
+                    <path d="M5 21h14"></path>
+                  </svg>
+                  Exportar
+                </button>
+              </div>
+            </div>
+
+            <div id="table-pending-note" class="table-note" hidden></div>
+
+            <div class="table-wrap">
+              <table class="participants-table" id="participants-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Participante</th>
+                    <th scope="col">Talla</th>
+                    <th scope="col">Le regala a</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col" class="actions-col">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="participants-body"></tbody>
+              </table>
+            </div>
+
+            <div id="participants-empty" class="empty-state" hidden>
+              <span class="empty-icon" aria-hidden="true">虎</span>
+              <h3>Todavía no hay participantes</h3>
+              <p>
+                Comparte el enlace del sitio para que el equipo se registre.
+                Los participantes aparecerán aquí automáticamente.
+              </p>
+              <button
+                type="button"
+                id="copy-site-link"
+                class="btn btn-ghost btn-small"
+              >
+                Copiar enlace del sitio
+              </button>
+            </div>
+
+            <div id="participants-no-results" class="empty-state" hidden>
+              <span class="empty-icon" aria-hidden="true">?</span>
+              <h3>Sin resultados</h3>
+              <p>No encontramos participantes con ese nombre o talla.</p>
+            </div>
+
+            <div class="table-footer">
+              <span id="filter-count">Mostrando 0 de 0</span>
+              <span class="table-footnote">
+                El administrador ve todas las asignaciones. Los participantes
+                solo ven la suya.
+              </span>
+            </div>
+          </section>
+
+          <section class="danger-zone" id="advanced-zone">
+            <div>
+              <p class="eyebrow">Zona delicada</p>
+              <h2>Re-sortear a todos</h2>
+              <p>
+                Reemplaza todas las asignaciones actuales por un sorteo nuevo.
+                Úsalo solo si necesitas reiniciar el sorteo por completo.
+              </p>
+            </div>
+            <button
+              type="button"
+              id="redraw-button"
+              class="btn btn-danger-outline"
+            >
+              Re-sortear a todos
+            </button>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark brand-mark-small" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="22" fill="currentColor"></circle>
+              <path
+                d="M13 17h22M10 24h28M13 31h22M18 37h12"
+                fill="none"
+                stroke="#09090b"
+                stroke-width="4"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+          </span>
+          <span>Team Tora No Maki</span>
+        </div>
+
+        <p class="footer-note">
+          Panel de administración · <span id="year">2026</span>
+        </p>
+
+        <a class="footer-admin-link" href="./">Volver al inicio</a>
+      </div>
+    </footer>
+
+    <dialog
+      id="confirm-dialog"
+      class="confirm-dialog"
+      aria-labelledby="confirm-title"
+      aria-describedby="confirm-message"
+    >
+      <div class="dialog-card">
+        <span id="confirm-icon" class="dialog-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M10.3 3.8 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"
+            ></path>
+            <path d="M12 9v4"></path>
+            <path d="M12 17h.01"></path>
+          </svg>
+        </span>
+        <h2 id="confirm-title">Confirmar acción</h2>
+        <p id="confirm-message"></p>
+        <div class="dialog-actions">
+          <button type="button" id="confirm-cancel" class="btn btn-ghost">
+            Cancelar
+          </button>
+          <button type="button" id="confirm-accept" class="btn btn-primary">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="./assets/vendor/supabase.js"></script>
+    <script type="module" src="./assets/admin.js"></script>
+  </body>
+</html>

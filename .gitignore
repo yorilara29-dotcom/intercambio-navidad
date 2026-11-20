@@ -1,0 +1,30 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+*.swp
+*.swo
+*~
+
+# Dependencias y artefactos locales
+node_modules/
+dist/
+build/
+
+# Secretos: nunca subir claves privadas ni archivos de entorno
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Pruebas locales
+tests/**/tmp/
+tests/**/*.log
+*.log
+
+# Configuración local del proyecto
+assets/config.local.js

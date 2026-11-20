@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Intercambio de Navidad">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1a1f" />
+      <stop offset="1" stop-color="#09090b" />
+    </linearGradient>
+    <linearGradient id="box" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e11d3f" />
+      <stop offset="1" stop-color="#a30c24" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6dda6" />
+      <stop offset="1" stop-color="#d8ab53" />
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="url(#bg)" />
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="url(#gold)" stroke-opacity="0.35" stroke-width="1.5" />
+
+  <!-- Caja -->
+  <rect x="14" y="28" width="36" height="24" rx="3" fill="url(#box)" />
+  <!-- Tapa -->
+  <rect x="11" y="23" width="42" height="8" rx="2.5" fill="url(#box)" />
+  <rect x="11" y="23" width="42" height="8" rx="2.5" fill="#fff" fill-opacity="0.07" />
+  <!-- Listón vertical -->
+  <rect x="29" y="23" width="6" height="29" fill="url(#gold)" />
+  <!-- Listón horizontal -->
+  <rect x="11" y="25" width="42" height="4" fill="url(#gold)" />
+  <!-- Moño -->
+  <path d="M32 23c-5.2 0-10-2.2-10-5.6 0-2.2 1.8-3.6 3.8-3.6 3 0 5.2 3.4 6.2 9.2Z" fill="url(#gold)" />
+  <path d="M32 23c5.2 0 10-2.2 10-5.6 0-2.2-1.8-3.6-3.8-3.6-3 0-5.2 3.4-6.2 9.2Z" fill="url(#gold)" />
+  <circle cx="32" cy="23" r="2.6" fill="#f6dda6" />
+</svg>

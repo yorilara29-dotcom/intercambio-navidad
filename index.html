@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#09090b" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; form-action 'self'; base-uri 'self'; object-src 'none'"
+    />
+    <meta
+      name="description"
+      content="Intercambio de Navidad del Team Tora No Maki. Regístrate con tu nombre y talla de calzado, y descubre a quién te toca regalar."
+    />
+    <title>Intercambio de Navidad · Team Tora No Maki</title>
+
+    <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/fonts.css" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+
+  <body class="page-public">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <div class="background-decor" aria-hidden="true">
+      <span class="background-grid"></span>
+      <span class="background-glow background-glow-red"></span>
+      <span class="background-glow background-glow-gold"></span>
+    </div>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="./" aria-label="Team Tora No Maki, inicio">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="22" fill="currentColor"></circle>
+              <path
+                d="M13 17h22M10 24h28M13 31h22M18 37h12"
+                fill="none"
+                stroke="#09090b"
+                stroke-width="4"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <span class="brand-name">Team Tora No Maki</span>
+            <span class="brand-sub">Intercambio de Navidad</span>
+          </span>
+        </a>
+
+        <nav class="site-nav" aria-label="Navegación principal">
+          <a href="#registro">Registro</a>
+          <a href="#mi-sorteo">Mi sorteo</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <section class="hero container">
+        <div class="hero-copy">
+          <p class="eyebrow">
+            <span class="eyebrow-line" aria-hidden="true"></span>
+            Academia de artes marciales
+          </p>
+
+          <h1>
+            El arte de<br />
+            <span class="text-accent">regalar</span><span class="text-dot">.</span>
+          </h1>
+
+          <p class="hero-lead">
+            Un intercambio secreto para compartir en equipo. Regístrate,
+            espera el sorteo y descubre a quién te toca sorprender esta
+            Navidad.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#registro">
+              Quiero participar
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"></path>
+              </svg>
+            </a>
+            <a class="btn btn-ghost" href="#mi-sorteo">Ya me registré</a>
+          </div>
+
+          <div class="hero-meta">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span id="participant-count">Cargando participantes…</span>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="enso-wrap">
+            <svg class="enso-ring" viewBox="0 0 360 360">
+              <circle
+                cx="180"
+                cy="180"
+                r="156"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="9"
+                stroke-linecap="round"
+                stroke-dasharray="880 100"
+                transform="rotate(-38 180 180)"
+              ></circle>
+            </svg>
+            <div class="sun-disc">
+              <span class="sun-kanji">虎</span>
+              <span class="sun-caption">Tora no Maki</span>
+            </div>
+          </div>
+
+          <div class="event-ticket">
+            <span class="ticket-top">Dojo · Navidad</span>
+            <strong class="ticket-year" id="event-year">2026</strong>
+            <span class="ticket-bottom">Team Tora No Maki</span>
+            <span class="ticket-hole" aria-hidden="true"></span>
+          </div>
+
+          <span class="spark spark-one">✦</span>
+          <span class="spark spark-two">✧</span>
+          <span class="spark spark-three">✦</span>
+        </div>
+      </section>
+
+      <div class="container">
+        <div
+          id="state-banner"
+          class="state-banner"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          <span class="state-banner-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3v9"></path>
+              <path d="M12 17h.01"></path>
+              <circle cx="12" cy="12" r="9"></circle>
+            </svg>
+          </span>
+          <div class="state-banner-copy">
+            <strong id="state-banner-title"></strong>
+            <p id="state-banner-text"></p>
+          </div>
+        </div>
+      </div>
+
+      <section class="forms-section container" aria-labelledby="participa-title">
+        <div class="section-heading">
+          <p class="eyebrow">Participa</p>
+          <h2 id="participa-title">Tu lugar en el intercambio</h2>
+          <p>
+            Dos pasos simples: regístrate ahora y, cuando el sorteo esté
+            listo, consulta a quién te toca regalar.
+          </p>
+        </div>
+
+        <div class="forms-grid">
+          <article class="card card-registration" id="registro">
+            <div class="card-topline">
+              <span class="step-number">01</span>
+              <span class="card-kicker">Registro</span>
+            </div>
+
+            <h3>Regístrate en menos de un minuto</h3>
+            <p class="card-intro">
+              Necesitamos tu nombre, apellido y talla de calzado. Así quien te
+              regale sabrá qué elegir.
+            </p>
+
+            <div id="registration-closed" class="inline-notice" hidden>
+              <strong>El registro está cerrado.</strong>
+              <span>
+                Si ya participaste, puedes consultar tu asignación con tu
+                nombre y talla.
+              </span>
+            </div>
+
+            <div
+              id="registration-late-note"
+              class="inline-notice inline-notice-warning"
+              hidden
+            >
+              <strong>El sorteo ya se realizó.</strong>
+              <span>
+                Si te registras ahora, el administrador deberá ejecutar el
+                segundo sorteo para integrarte.
+              </span>
+            </div>
+
+            <form id="registration-form" class="form" novalidate>
+              <div class="form-row">
+                <div class="field">
+                  <label for="reg-first-name">Nombre</label>
+                  <input
+                    id="reg-first-name"
+                    name="first_name"
+                    type="text"
+                    maxlength="60"
+                    autocomplete="given-name"
+                    autocapitalize="words"
+                    placeholder="Ej: Camila"
+                    required
+                  />
+                  <p
+                    class="field-error"
+                    id="reg-first-name-error"
+                    role="alert"
+                    hidden
+                  ></p>
+                </div>
+
+                <div class="field">
+                  <label for="reg-last-name">Apellido</label>
+                  <input
+                    id="reg-last-name"
+                    name="last_name"
+                    type="text"
+                    maxlength="60"
+                    autocomplete="family-name"
+                    autocapitalize="words"
+                    placeholder="Ej: Rojas"
+                    required
+                  />
+                  <p
+                    class="field-error"
+                    id="reg-last-name-error"
+                    role="alert"
+                    hidden
+                  ></p>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="reg-shoe-size">Talla de calzado</label>
+                <input
+                  id="reg-shoe-size"
+                  name="shoe_size"
+                  type="text"
+                  maxlength="20"
+                  inputmode="text"
+                  autocomplete="off"
+                  placeholder="Ej: 38, 38.5, 8.5 US"
+                  required
+                />
+                <p class="field-hint">
+                  Escríbela como la usas: 38, 38.5, 8.5 US, 25 cm…
+                </p>
+                <p
+                  class="field-error"
+                  id="reg-shoe-size-error"
+                  role="alert"
+                  hidden
+                ></p>
+              </div>
+
+              <p
+                class="form-error"
+                id="registration-error"
+                role="alert"
+                hidden
+              ></p>
+
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                id="registration-submit"
+              >
+                <span>Registrarme</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6"></path>
+                </svg>
+              </button>
+
+              <p class="privacy-note">
+                Usaremos estos datos únicamente para organizar el intercambio.
+              </p>
+            </form>
+
+            <div id="registration-success" class="success-panel" hidden>
+              <span class="success-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </span>
+              <p class="success-kicker">Confirmado</p>
+              <h3>¡Registro exitoso!</h3>
+              <p class="success-name-line">
+                Ya estás participando, <strong id="success-name"></strong>.
+              </p>
+
+              <div class="size-chip">
+                <span>Talla registrada</span>
+                <strong id="success-size"></strong>
+              </div>
+
+              <p id="success-draw-note" class="success-note"></p>
+
+              <div class="success-actions">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="success-lookup"
+                >
+                  Consultar mi sorteo
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-ghost"
+                  id="success-another"
+                >
+                  Registrar otra persona
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card card-lookup" id="mi-sorteo">
+            <div class="card-topline">
+              <span class="step-number">02</span>
+              <span class="card-kicker">Mi sorteo</span>
+            </div>
+
+            <h3>Descubre a quién te toca regalar</h3>
+            <p class="card-intro">
+              Ingresa exactamente los datos con los que te registraste. La
+              talla también nos ayuda a identificar tu registro.
+            </p>
+
+            <form id="lookup-form" class="form" novalidate>
+              <div class="form-row">
+                <div class="field">
+                  <label for="look-first-name">Nombre</label>
+                  <input
+                    id="look-first-name"
+                    name="first_name"
+                    type="text"
+                    maxlength="60"
+                    autocomplete="given-name"
+                    autocapitalize="words"
+                    placeholder="Ej: Camila"
+                    required
+                  />
+                  <p
+                    class="field-error"
+                    id="look-first-name-error"
+                    role="alert"
+                    hidden
+                  ></p>
+                </div>
+
+                <div class="field">
+                  <label for="look-last-name">Apellido</label>
+                  <input
+                    id="look-last-name"
+                    name="last_name"
+                    type="text"
+                    maxlength="60"
+                    autocomplete="family-name"
+                    autocapitalize="words"
+                    placeholder="Ej: Rojas"
+                    required
+                  />
+                  <p
+                    class="field-error"
+                    id="look-last-name-error"
+                    role="alert"
+                    hidden
+                  ></p>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="look-shoe-size">Talla de calzado</label>
+                <input
+                  id="look-shoe-size"
+                  name="shoe_size"
+                  type="text"
+                  maxlength="20"
+                  inputmode="text"
+                  autocomplete="off"
+                  placeholder="Ej: 38, 38.5, 8.5 US"
+                  required
+                />
+                <p
+                  class="field-error"
+                  id="look-shoe-size-error"
+                  role="alert"
+                  hidden
+                ></p>
+              </div>
+
+              <p class="form-error" id="lookup-error" role="alert" hidden></p>
+
+              <button
+                type="submit"
+                class="btn btn-primary btn-block"
+                id="lookup-submit"
+              >
+                <span>Consultar mi asignación</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6"></path>
+                </svg>
+              </button>
+            </form>
+
+            <div id="saved-data-hint" class="saved-hint" hidden>
+              <span>Estos son los datos de tu último registro en este dispositivo.</span>
+              <button type="button" id="clear-saved-data" class="text-button">
+                Borrar
+              </button>
+            </div>
+
+            <div
+              id="lookup-result"
+              class="lookup-result"
+              aria-live="polite"
+              hidden
+            >
+              <div
+                id="lookup-not-found"
+                class="result-panel result-not-found"
+                hidden
+              >
+                <span class="result-icon" aria-hidden="true">?</span>
+                <p class="result-kicker">No encontramos tu registro</p>
+                <h4>Revisa los datos e intenta otra vez</h4>
+                <p>
+                  El nombre, el apellido y la talla deben coincidir con los del
+                  registro. Si escribiste tu talla como “42,5”, prueba también
+                  con “42.5”.
+                </p>
+              </div>
+
+              <div
+                id="lookup-pending"
+                class="result-panel result-pending"
+                hidden
+              >
+                <span class="result-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                  </svg>
+                </span>
+                <p class="result-kicker" id="lookup-pending-kicker">
+                  Aún falta el sorteo
+                </p>
+                <h4 id="lookup-pending-title">Tu registro está listo</h4>
+                <p id="lookup-pending-text"></p>
+              </div>
+
+              <div
+                id="lookup-assignment"
+                class="result-panel result-assignment"
+                hidden
+              >
+                <p class="result-kicker">Tu asignación</p>
+                <p class="gift-lead">Te toca regalarle a:</p>
+                <h4 id="receiver-name" class="receiver-name"></h4>
+                <div class="receiver-size">
+                  <span>Talla de calzado</span>
+                  <strong id="receiver-size"></strong>
+                </div>
+                <p class="secret-note">
+                  Mantén el secreto hasta el día del intercambio. No compartas
+                  esta pantalla.
+                </p>
+                <button
+                  type="button"
+                  class="btn btn-ghost btn-small"
+                  id="copy-assignment"
+                >
+                  Copiar mensaje
+                </button>
+              </div>
+
+              <p id="lookup-owner" class="lookup-owner" hidden></p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="steps container" aria-labelledby="steps-title">
+        <div class="section-heading section-heading-center">
+          <p class="eyebrow">Cómo funciona</p>
+          <h2 id="steps-title">Tres pasos, un regalo</h2>
+        </div>
+
+        <ol class="steps-grid">
+          <li class="step-card">
+            <span class="step-index">01</span>
+            <h3>Regístrate</h3>
+            <p>
+              Completa tu nombre, apellido y talla de calzado. El registro
+              queda guardado al instante.
+            </p>
+          </li>
+          <li class="step-card">
+            <span class="step-index">02</span>
+            <h3>Espera el sorteo</h3>
+            <p>
+              El administrador realizará el sorteo cuando estén todos los
+              participantes. Nadie queda sin asignación.
+            </p>
+          </li>
+          <li class="step-card">
+            <span class="step-index">03</span>
+            <h3>Consulta y regala</h3>
+            <p>
+              Ingresa tus datos y descubre el nombre y la talla de la persona
+              a la que le toca regalar.
+            </p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="rules container" aria-labelledby="rules-title">
+        <div class="rules-card">
+          <div class="rules-intro">
+            <p class="eyebrow">Reglas del juego</p>
+            <h2 id="rules-title">Reglas claras, regalos felices</h2>
+            <p>
+              Un detalle pequeño puede alegrarle la Navidad a alguien del
+              dojo. Participa con ganas y mantén el misterio.
+            </p>
+          </div>
+
+          <ul class="rules-list">
+            <li>
+              <span aria-hidden="true">一</span>
+              Cada participante regala a una sola persona.
+            </li>
+            <li>
+              <span aria-hidden="true">二</span>
+              Nadie se regala a sí mismo y nadie recibe más de un regalo.
+            </li>
+            <li>
+              <span aria-hidden="true">三</span>
+              Mantén en secreto a quién te toca hasta el intercambio.
+            </li>
+            <li>
+              <span aria-hidden="true">四</span>
+              Si te registras después del sorteo, el administrador ejecutará
+              un segundo sorteo para integrarte.
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <span class="brand-mark brand-mark-small" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <circle cx="24" cy="24" r="22" fill="currentColor"></circle>
+              <path
+                d="M13 17h22M10 24h28M13 31h22M18 37h12"
+                fill="none"
+                stroke="#09090b"
+                stroke-width="4"
+                stroke-linecap="round"
+              ></path>
+            </svg>
+          </span>
+          <span>Team Tora No Maki</span>
+        </div>
+
+        <p class="footer-note">
+          Intercambio de Navidad · <span id="year">2026</span>
+        </p>
+
+        <a class="footer-admin-link" href="./admin.html">
+          Acceso administrador
+        </a>
+      </div>
+    </footer>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="./assets/vendor/supabase.js"></script>
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>

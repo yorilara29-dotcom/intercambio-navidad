@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /admin.html
+Allow: /
+
+# Los buscadores pueden indexar la página pública de registro,
+# pero no el panel de administración.

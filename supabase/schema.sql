@@ -415,7 +415,10 @@ begin
     v_receivers := array_append(v_givers[2:v_n], v_givers[1]);
   end if;
 
-  delete from public.assignments;
+  -- Supabase puede tener activa la extensión "safeupdate", que rechaza
+  -- DELETE sin WHERE incluso dentro de funciones. El WHERE es obligatorio
+  -- aquí para que el sorteo funcione en producción.
+  delete from public.assignments where id is not null;
 
   for i in 1..v_n loop
     insert into public.assignments (giver_id, receiver_id, draw_round)
@@ -581,6 +584,34 @@ begin
 end;
 $$;
 
+create or replace function public.admin_reset_all()
+returns jsonb
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+begin
+  perform public.assert_admin();
+  perform pg_advisory_xact_lock(74201926);
+
+  -- Borrar asignaciones (con WHERE para pg-safeupdate)
+  delete from public.assignments where id is not null;
+
+  -- Borrar participantes (con WHERE para pg-safeupdate)
+  delete from public.participants where id is not null;
+
+  -- Reiniciar estado del sorteo
+  update public.exchange_state
+  set draw_status = 'pending',
+      draw_round = 0,
+      drawn_at = null,
+      updated_at = now()
+  where singleton = true;
+
+  return jsonb_build_object('ok', true, 'message', 'Base de datos reiniciada: asignaciones y participantes borrados, sorteo a cero.');
+end;
+$$;
+
 -- ------------------------------------------------------------
 -- 5. Seguridad: RLS, permisos y acceso solo por RPC
 -- ------------------------------------------------------------
@@ -626,5 +657,8 @@ grant execute on function public.admin_set_registration_open(boolean) to authent
 
 revoke all on function public.admin_delete_pending_participant(uuid) from public, anon;
 grant execute on function public.admin_delete_pending_participant(uuid) to authenticated;
+
+revoke all on function public.admin_reset_all() from public, anon;
+grant execute on function public.admin_reset_all() to authenticated;
 
 commit;

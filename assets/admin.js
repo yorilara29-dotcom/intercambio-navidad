@@ -67,6 +67,7 @@ function bindAdminEvents() {
   $('#retry-dashboard')?.addEventListener('click', handleRefresh);
   $('#draw-button')?.addEventListener('click', handleDrawClick);
   $('#redraw-button')?.addEventListener('click', handleRedrawClick);
+  $('#reset-all-button')?.addEventListener('click', handleResetAllClick);
   $('#registration-toggle')?.addEventListener(
     'change',
     handleRegistrationToggle
@@ -823,6 +824,30 @@ function handleRedrawClick() {
     destructive: true,
     onAccept: runFullDraw,
   });
+}
+
+function handleResetAllClick() {
+  const { total } = getCounts();
+
+  if (total === 0) {
+    showToast('No hay participantes para limpiar.', 'info');
+    return;
+  }
+
+  openConfirm({
+    title: 'Limpiar todo',
+    message:
+      'Esto borrará <strong>todos</strong> los participantes y <strong>todas</strong> las asignaciones. El sorteo volverá a cero. No se puede deshacer.',
+    acceptLabel: 'Sí, limpiar todo',
+    destructive: true,
+    onAccept: runResetAll,
+  });
+}
+
+async function runResetAll() {
+  const result = await callRpc('admin_reset_all');
+  showToast(result?.message || 'Base de datos reiniciada.', 'success');
+  await loadDashboard({ silent: true });
 }
 
 async function runFullDraw() {
